@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><!-- hexo injector head_begin start -->
+        <link rel="preconnect" href="https://cos.pinlyu.com" crossorigin="">
+        <link rel="preconnect" href="https://cdn.staticfile.org" crossorigin="">
+        <link rel="preconnect" href="https://cdn.helingqi.com" crossorigin=""><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#e7ddc8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181c27" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/resources/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/resources/favicon/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/resources/favicon/favicon.ico">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"orange117.github.io","root":"/","images":"/resources/img/","scheme":"Gemini","darkmode":true,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":true,"style":"flat"},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":true,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":false,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/./public/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":7,"unescape":false,"preload":false,"style":"flat","icons":true,"light_bg_offset":0}}</script><script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/config.min.js"></script>
+
+    <meta name="description" content="学习非关系型数据库：Redis，同时了解NoSql的基本思想、Redis的基础命令以及Redis和Java的连接（jedis）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis基础">
+<meta property="og:url" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/">
+<meta property="og:site_name" content="Orange117">
+<meta property="og:description" content="学习非关系型数据库：Redis，同时了解NoSql的基本思想、Redis的基础命令以及Redis和Java的连接（jedis）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/1.%E5%85%B3%E7%B3%BB%E5%9E%8B%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AF%94%E8%BE%83.bmp">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106113405910.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106113424318.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106171346559.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106171750638.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106172858393.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106173510568.png">
+<meta property="og:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106174213475.png">
+<meta property="article:published_time" content="2020-11-07T07:54:58.000Z">
+<meta property="article:author" content="CKX">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Redis">
+<meta property="article:tag" content="NoSql">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/1.%E5%85%B3%E7%B3%BB%E5%9E%8B%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AF%94%E8%BE%83.bmp">
+
+
+<link rel="canonical" href="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/","path":"2020/11/07/Redis基础/","title":"Redis基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis基础 | Orange117</title>
+  
+
+
+
+
+
+
+  <script async defer data-website-id="dfd4ef79-619d-4b55-b84e-981fd43cefa9" src="https://stat.pinlyu.com/script.js"></script>
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/resources/fonts/longcang/longcang-regular.css" >
+<link rel="stylesheet" href="/resources/fonts/lxgw/lxgwwenkailite-regular.css" >
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Orange117</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">I be havin' to check myself</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          目 录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E7%A1%80"><span class="nav-text">一、基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E4%BB%80%E4%B9%88%E6%98%AFNoSql"><span class="nav-text">1.1什么是NoSql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-text">1.2下载安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C"><span class="nav-text">1.3命令操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E7%89%B9%E6%80%A7"><span class="nav-text">二、特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-text">2.1持久化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81Java%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-text">三、Java客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Jedis"><span class="nav-text">3.1 Jedis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Jedis-%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-text">3.2 Jedis 连接池</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CKX"
+      src="/resources/img/avatar.png">
+  <p class="site-author-name" itemprop="name">CKX</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Orange117" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Orange117" rel="noopener me" target="_blank"><i class="fa-brands fa-github fa-fw"></i></a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/resources/img/avatar.png">
+      <meta itemprop="name" content="CKX">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Orange117">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis基础 | Orange117">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-07 15:54:58" itemprop="dateCreated datePublished" datetime="2020-11-07T15:54:58+08:00">2020-11-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>学习非关系型数据库：Redis，同时了解NoSql的基本思想、Redis的基础命令以及Redis和Java的连接（jedis）。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h2><p>Redis是一款高性能的NoSql系列的非关系型数据库</p>
+<h3 id="1-1什么是NoSql"><a href="#1-1什么是NoSql" class="headerlink" title="1.1什么是NoSql"></a>1.1什么是NoSql</h3><p>​		NoSQL(NoSQL &#x3D; Not Only SQL)，意即“不仅仅是SQL”，是一项全新的数据库理念，泛指非关系型的数据库。<br>​		随着互联网web2.0网站的兴起，传统的关系数据库在应付web2.0网站，特别是超大规模和高并发的SNS类型的web2.0纯动态网站已经显得力不从心，暴露了很多难以克服的问题，而非关系型的数据库则由于其本身的特点得到了非常迅速的发展。NoSQL数据库的产生就是为了解决大规模数据集合多重数据种类带来的挑战，尤其是大数据应用难题。</p>
+<ul>
+<li><p><strong>NoSql</strong>和<strong>关系型数据库</strong>比较</p>
+<p><u><em><strong>缓存思想</strong></em></u></p>
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/1.%E5%85%B3%E7%B3%BB%E5%9E%8B%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AF%94%E8%BE%83.bmp" class=""></li>
+</ul>
+<h3 id="1-2下载安装"><a href="#1-2下载安装" class="headerlink" title="1.2下载安装"></a>1.2下载安装</h3><ul>
+<li><p>官网下载</p>
+</li>
+<li><p>中文网下载：<a target="_blank" rel="noopener" href="http://www.redis.cn/">http://www.redis.cn/</a></p>
+</li>
+<li><p>解压直接可以使用：</p>
+<ul>
+<li>redis.windows.conf：配置文件</li>
+<li>redis-cli.exe：redis的客户端</li>
+<li>redis-server.exe：redis服务器端</li>
+</ul>
+<p>双击对应的文件</p>
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106113405910.png" class="">
+
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106113424318.png" class="">
+
+<blockquote>
+<p>注：根据自己的电脑位数选择32位或者64位</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="1-3命令操作"><a href="#1-3命令操作" class="headerlink" title="1.3命令操作"></a>1.3命令操作</h3><ul>
+<li><p>存储结构：</p>
+<p>key - value，其中key是字符串，value有5种不同的数据结构</p>
+<ul>
+<li>String: 字符串</li>
+<li>Hash: 散列</li>
+<li>List: 列表</li>
+<li>Set: 集合</li>
+<li>Sorted Set: 有序集合</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-3-1字符串类型-string"><a href="#1-3-1字符串类型-string" class="headerlink" title="1.3.1字符串类型 string"></a>1.3.1字符串类型 string</h4><ul>
+<li>存储: set key value</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> <span class="token builtin class-name">set</span> username ckx
+OK
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> <span class="token builtin class-name">set</span> age <span class="token number">10</span>
+OK</code></pre>
+
+<ul>
+<li>获取: get key</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> get username
+<span class="token string">"ckx"</span></code></pre>
+
+<ul>
+<li>删除: del key</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> del age
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> del c
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">0</span></code></pre>
+
+<h4 id="1-3-2哈希类型-hash"><a href="#1-3-2哈希类型-hash" class="headerlink" title="1.3.2哈希类型 hash"></a>1.3.2哈希类型 hash</h4><ul>
+<li>存储: hset key field value</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hset myhash username ckx
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hset myhash password <span class="token number">123</span>
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span></code></pre>
+
+<ul>
+<li><p>获取：</p>
+<ul>
+<li>hget key field: 获取指定的 field 对应的值</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hget myhash username
+<span class="token string">"ckx"</span></code></pre>
+
+<ul>
+<li>hgetall key: 获取所有的field对应的值</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hgetall myhash
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"username"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"ckx"</span>
+<span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"password"</span>
+<span class="token number">4</span><span class="token punctuation">)</span> <span class="token string">"123"</span></code></pre>
+</li>
+<li><p>删除: hdel key field</p>
+</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hdel myhash username
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> hgetall myhash
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"password"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"123"</span></code></pre>
+
+<h4 id="1-3-3列表类型-list"><a href="#1-3-3列表类型-list" class="headerlink" title="1.3.3列表类型 list"></a>1.3.3列表类型 list</h4><p>可以添加一个元素到列表的头部或者尾部</p>
+<ul>
+<li><p>添加：</p>
+<ul>
+<li><p>lpush key value: 将元素加入列表左表</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> lpush myList a
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> lpush myList b
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">2</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> lpush myList c
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">3</span></code></pre>
+</li>
+<li><p>rpush key value: 将元素加入列表右边</p>
+</li>
+</ul>
+</li>
+<li><p>获取：lrange key start end ：范围获取</p>
+<ul>
+<li>Redis Lrange 返回列表中指定区间内的元素，区间以偏移量 START 和 END 指定。 其中 0 表示列表的第一个元素， 1 表示列表的第二个元素，以此类推。 你也可以使用负数下标，以 -1 表示列表的最后一个元素， -2 表示列表的倒数第二个元素，以此类推。</li>
+</ul>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> lrange myList <span class="token number">0</span> <span class="token parameter variable">-1</span>
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"c"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"b"</span>
+<span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"a"</span></code></pre>
+</li>
+<li><p>删除：</p>
+<ul>
+<li>lpop key： 删除列表最左边的元素，并将元素返回</li>
+<li>rpop key： 删除列表最右边的元素，并将元素返回</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-3-4集合类型-set"><a href="#1-3-4集合类型-set" class="headerlink" title="1.3.4集合类型 set"></a>1.3.4集合类型 set</h4><p>不允许重复元素</p>
+<ul>
+<li><p>存储：sadd key value</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> sadd myset a
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> sadd myset a
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">0</span></code></pre>
+</li>
+<li><p>获取：smembers key:获取set集合中所有元素</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> smembers myset
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"a"</span></code></pre>
+</li>
+<li><p>删除：srem key value:删除set集合中的某个元素</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> srem myset a
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span></code></pre></li>
+</ul>
+<h4 id="1-3-5有序集合类型-sorted-set"><a href="#1-3-5有序集合类型-sorted-set" class="headerlink" title="1.3.5有序集合类型 sorted set"></a>1.3.5有序集合类型 sorted set</h4><ul>
+<li><p>Redis 有序集合和集合一样也是 string 类型元素的集合,且不允许重复的成员。</p>
+<p>不同的是每个元素都会关联一个 double 类型的分数。redis 正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<p>有序集合的成员是唯一的,但分数(score)却可以重复。</p>
+</li>
+<li><p>存储：zadd key score value</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zadd mysort <span class="token number">60</span> ckx1
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zadd mysort <span class="token number">50</span> ckx2
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zadd mysort <span class="token number">80</span> ckx3
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span></code></pre>
+</li>
+<li><p>获取：zrange key start end [withscores]</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zrange mysort <span class="token number">0</span> <span class="token parameter variable">-1</span>
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"ckx2"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"ckx1"</span>
+<span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"ckx3"</span>
+<span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zrange mysort <span class="token number">0</span> <span class="token parameter variable">-1</span> withscores
+<span class="token number">1</span><span class="token punctuation">)</span> <span class="token string">"ckx2"</span>
+<span class="token number">2</span><span class="token punctuation">)</span> <span class="token string">"50"</span>
+<span class="token number">3</span><span class="token punctuation">)</span> <span class="token string">"ckx1"</span>
+<span class="token number">4</span><span class="token punctuation">)</span> <span class="token string">"60"</span>
+<span class="token number">5</span><span class="token punctuation">)</span> <span class="token string">"ckx3"</span>
+<span class="token number">6</span><span class="token punctuation">)</span> <span class="token string">"80"</span></code></pre>
+</li>
+<li><p>删除：zrem key value</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token number">127.0</span>.0.1:637<span class="token operator"><span class="token file-descriptor important">9</span>></span> zrem mysort ckx1
+<span class="token punctuation">(</span>integer<span class="token punctuation">)</span> <span class="token number">1</span></code></pre></li>
+</ul>
+<h4 id="1-3-6通用命令"><a href="#1-3-6通用命令" class="headerlink" title="1.3.6通用命令"></a>1.3.6通用命令</h4><ul>
+<li>keys * : 查询所有的键</li>
+<li>type key ： 获取键对应的value的类型</li>
+<li>del key：删除指定的key value</li>
+</ul>
+<hr>
+<h2 id="二、特性"><a href="#二、特性" class="headerlink" title="二、特性"></a>二、特性</h2><h3 id="2-1持久化"><a href="#2-1持久化" class="headerlink" title="2.1持久化"></a>2.1持久化</h3><ul>
+<li>redis是一个内存数据库，当redis服务器重启，获取电脑重启，数据会丢失，我们可以将redis内存中的数据持久化保存到硬盘的文件中。</li>
+</ul>
+<h4 id="2-1-1持久化机制"><a href="#2-1-1持久化机制" class="headerlink" title="2.1.1持久化机制"></a>2.1.1持久化机制</h4><h5 id="RDB：默认方式"><a href="#RDB：默认方式" class="headerlink" title="RDB：默认方式"></a>RDB：默认方式</h5><p>1.编辑 redis.windows.conf 文件</p>
+   <pre class="language-markup" data-language="markup"><code class="language-markup">#   after 900 sec (15 min) if at least 1 key changed
+save 900 1
+#   after 300 sec (5 min) if at least 10 keys changed
+save 300 10
+#   after 60 sec if at least 10000 keys changed
+save 60 10000</code></pre>
+
+<p>   <strong>15 分钟之后，如果有一个 key 改变，持久化一次</strong></p>
+<p>2.在redis文件夹下选择命令行启动<strong>服务端</strong></p>
+  <img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106171346559.png" class="">
+
+<p>3.点击启动客户端进行测试</p>
+  <img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106171750638.png" class="">
+
+<p>4.数据内容存在文件夹下的<strong>dump.rbd</strong>文件</p>
+<p>5.根据服务器的性能和需求进行配置</p>
+<h5 id="AOF：日志记录"><a href="#AOF：日志记录" class="headerlink" title="AOF：日志记录"></a>AOF：日志记录</h5><p>1.编辑redis.windwos.conf文件</p>
+   <pre class="language-bash" data-language="bash"><code class="language-bash">appendonly no（关闭aof） --<span class="token operator">></span> appendonly <span class="token function">yes</span> （开启aof）
+<span class="token comment"># appendfsync always ： 每一次操作都进行持久化</span>
+appendfsync everysec ： 每隔一秒进行一次持久化
+<span class="token comment"># appendfsync no	 ： 不进行持久化</span></code></pre>
+
+<p>2.如 RDB 方式进行启动、数据测试</p>
+<p>3.数据内容存在文件夹下的<strong>appendonly.aof</strong>文件</p>
+<hr>
+<h2 id="三、Java客户端"><a href="#三、Java客户端" class="headerlink" title="三、Java客户端"></a>三、Java客户端</h2><h3 id="3-1-Jedis"><a href="#3-1-Jedis" class="headerlink" title="3.1 Jedis"></a>3.1 Jedis</h3><ul>
+<li><p>一款Java操作redis数据库的工具</p>
+</li>
+<li><p>使用：导入jar包到项目中，编写测试代码</p>
+</li>
+</ul>
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106172858393.png" class="">
+
+<p>测试代码  </p>
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106173510568.png" class="">
+
+<ul>
+<li><p>方法：</p>
+<pre class="language-java" data-language="java"><code class="language-java">jedis<span class="token punctuation">.</span><span class="token function">setex</span><span class="token punctuation">(</span><span class="token string">"activecode"</span><span class="token punctuation">,</span><span class="token number">20</span><span class="token punctuation">,</span><span class="token string">"hehe"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//将activecode：hehe键值对存入redis，并且20秒后自动删除该键值对</span></code></pre>
+
+<p>应用场所：给邮箱发激活码</p>
+</li>
+</ul>
+<h3 id="3-2-Jedis-连接池"><a href="#3-2-Jedis-连接池" class="headerlink" title="3.2 Jedis 连接池"></a>3.2 Jedis 连接池</h3><ul>
+<li><p>JedisPool</p>
+</li>
+<li><p>使用：</p>
+<ol>
+<li><p>测试</p>
+<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/image-20201106174213475.png" class="">
+</li>
+<li><p>创建配置对象</p>
+<pre class="language-Java" data-language="Java"><code class="language-Java">public void test02() &#123;
+    &#x2F;**
+     * 创建一个配置对象
+     *&#x2F;
+    JedisPoolConfig jedisPoolConfig &#x3D; new JedisPoolConfig();
+    jedisPoolConfig.setMaxTotal(50);
+    jedisPoolConfig.setMaxIdle(10);
+
+
+    JedisPool jedisPool &#x3D; new JedisPool(jedisPoolConfig, &quot;localhost&quot;, 6379);
+    Jedis jedis &#x3D; jedisPool.getResource();
+    jedis.set(&quot;hello&quot;, &quot;world&quot;);
+    jedis.close();
+&#125;
+</code></pre></li>
+</ol>
+</li>
+</ul>
+<h4 id="3-2-1-JedisPool-工具类"><a href="#3-2-1-JedisPool-工具类" class="headerlink" title="3.2.1 JedisPool 工具类"></a>3.2.1 JedisPool 工具类</h4><pre class="language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">redis<span class="token punctuation">.</span>clients<span class="token punctuation">.</span>jedis<span class="token punctuation">.</span></span><span class="token class-name">Jedis</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">redis<span class="token punctuation">.</span>clients<span class="token punctuation">.</span>jedis<span class="token punctuation">.</span></span><span class="token class-name">JedisPool</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">redis<span class="token punctuation">.</span>clients<span class="token punctuation">.</span>jedis<span class="token punctuation">.</span></span><span class="token class-name">JedisPoolConfig</span></span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">IOException</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">InputStream</span></span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">Properties</span></span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * @author 16396
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">JedisPoolUtils</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">JedisPool</span> jedisPool<span class="token punctuation">;</span>
+
+    <span class="token keyword">static</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">InputStream</span> inputStreams <span class="token operator">=</span> <span class="token class-name">JedisPoolUtils</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">.</span><span class="token function">getClassLoader</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getResourceAsStream</span><span class="token punctuation">(</span><span class="token string">"jedis.properties"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Properties</span> properties <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Properties</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            properties<span class="token punctuation">.</span><span class="token function">load</span><span class="token punctuation">(</span>inputStreams<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token class-name">JedisPoolConfig</span> config <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JedisPoolConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        config<span class="token punctuation">.</span><span class="token function">setMaxTotal</span><span class="token punctuation">(</span><span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"maxTotal"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        config<span class="token punctuation">.</span><span class="token function">setMaxIdle</span><span class="token punctuation">(</span><span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"maxIdle"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jedisPool <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JedisPool</span><span class="token punctuation">(</span>config<span class="token punctuation">,</span> properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"host"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token class-name">Integer</span><span class="token punctuation">.</span><span class="token function">parseInt</span><span class="token punctuation">(</span>properties<span class="token punctuation">.</span><span class="token function">getProperty</span><span class="token punctuation">(</span><span class="token string">"port"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Jedis</span> <span class="token function">getJedis</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> jedisPool<span class="token punctuation">.</span><span class="token function">getResource</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/**
+     * 通过连接池工具类获取
+     */</span>
+    <span class="token annotation punctuation">@Test</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">test03</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Jedis</span> jedis <span class="token operator">=</span> <span class="token class-name">JedisPoolUtils</span><span class="token punctuation">.</span><span class="token function">getJedis</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jedis<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">"ok"</span><span class="token punctuation">,</span> <span class="token string">"true"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        jedis<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span></code></pre>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+
+
+
+
+
+
+
+<div class="license">
+  <div class="license-title">Redis基础</div>
+  <div class="license-link">
+    
+  </div>
+  <div class="license-meta">
+    <div class="license-meta-item">
+      <div class="license-meta-title">本文作者</div>
+      <div class="license-meta-text">
+          CKX
+      </div>
+    </div>
+      <div class="license-meta-item">
+        <div class="license-meta-title">发布于</div>
+        <div class="license-meta-text">
+          2020-11-07
+        </div>
+      </div>
+    <div class="license-meta-item">
+      
+      <div class="license-meta-text">
+          
+      </div>
+    </div>
+  </div>
+  <div class="license-statement">
+      
+  </div>
+</div>
+
+
+
+
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i> Java</a>
+              <a href="/tags/Redis/" rel="tag"><i class="fa fa-tag"></i> Redis</a>
+              <a href="/tags/NoSql/" rel="tag"><i class="fa fa-tag"></i> NoSql</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/07/2020%E2%80%94%E2%80%94%E7%94%9F%E4%BA%8E%E7%AB%8B%E5%86%AC/" rel="prev" title="2020——生于立冬">
+                  <i class="fa fa-chevron-left"></i> 2020——生于立冬
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/06/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="next" title="Hexo博客搭建">
+                  Hexo博客搭建 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fas fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Orange117</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdn.staticfile.org/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdn.staticfile.org/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdn.staticfile.org/jquery/3.6.3/jquery.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.staticfile.org/lozad.js/1.16.0/lozad.min.js" integrity="sha256-mOFREFhqmHeQbXpK2lp4nA3qooVgACfh88fpJftLBbc=" crossorigin="anonymous"></script>
+  <script src="https://cdn.staticfile.org/pangu/4.0.7/pangu.min.js" integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin="anonymous"></script>
+<script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/comments.min.js"></script><script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/utils.min.js"></script><script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/next-boot.min.js"></script><script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/pjax.min.js"></script>
+
+  <script src="https://cdn.staticfile.org/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/third-party/search/local-search.min.js"></script>
+
+
+
+  <script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/third-party/fancybox.min.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"ams","js":{"url":"https://cdn.staticfile.org/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="https://cdn.staticfile.org/hexo-theme-next/8.15.0/third-party/math/mathjax.min.js"></script>
+
+
+
+
+
+<script data-pjax type="text/javascript">
+  //jquery selector
+  var $linkList = $(".link-list");
+  if ($linkList.length != 0) {
+    var j = -1;
+    for	(var i = 0; i < $linkList.length; i++) {
+      const listPath = $linkList[i].getAttribute('json-src');
+      const iconPath = $linkList[i].getAttribute('icon-src');
+      //使用 getJSON 读取 JSON 文件中的数据
+      $.getJSON(listPath, function(data) {
+        j++;
+        //存储数据的变量 
+        var li = "";
+        //清空内容 
+        $linkList.eq(j).empty();
+        //将获取到的 json 格式数据遍历到 div 中
+        $.each(data, function(infoIndex, info) {
+          var labelWarn = '';
+          var labelInfo = '';
+          if (info['warn']) { 
+            labelWarn = '<span class="label warn">' + info['warn'] + '</span>';
+          }
+          if (info['info']) { 
+            labelInfo = '<span class="label info">' + info['info'] + '</span>';
+          }
+          li += '<div class="link-list-container">';
+          li += '<img class="link-list-image" src="' + iconPath + info['logo'] + '">';
+          li += '<p>' + info['title'] + labelInfo + labelWarn + '</p>';
+          li += '<p>' + info['intro'] + '</p>';
+          li += '<a href="' + info['url'] + '" rel="noopener" target="_blank" data-pjax-state=""></a>';
+          li += '</div>';
+        })
+        //显示处理后的数据 
+        $linkList.eq(j).html(li);
+      })
+    }
+  }
+</script>
+
+
+
+<script data-pjax type="text/javascript">
+  //jquery selector
+  var $cultureList = $(".culture-list");
+  if ($cultureList.length != 0) {
+    var j = -1;
+    for	(var i = 0; i < $cultureList.length; i++) {
+      const listPath = $cultureList[i].getAttribute('json-src');
+      const coverPath = $cultureList[i].getAttribute('cover-src');
+      //使用 getJSON 读取 JSON 文件中的数据
+      $.getJSON(listPath, function(data) {
+        j++;
+        //存储数据的变量 
+        var li = "";
+        //清空内容 
+        $cultureList.eq(j).empty();
+        //将获取到的 json 格式数据遍历到 div 中
+        $.each(data, function(infoIndex, info) {
+          //影评书评链接
+          var title = info['title'];
+          if (info['pid']) {
+            title = '<a href="/posts/'+ info['pid'] +'/" >' + info['title'] +'</a>';
+          }
+
+          //作者
+          if (info['author']) {
+            var author = '<span class="author">' + info['author'] +'</span>';
+          } else {
+            var author = '';
+          }
+
+          //简介
+          if (info['intro']) {
+            var intro = info['intro'];
+          } else {
+            var intro = '';
+          }
+          
+          //分数
+          if (info['score'] == null) {
+            var star = '';
+          } else {
+            //初始化
+            var colorStar = '';
+            var greyStar = '';
+            var int = info['score'] - info['score'] % 1; //整数部分
+            //是否有小数
+            var fract = 0; 
+            if (info['score'] % 1 != 0) {
+              fract = 1;
+            }
+            //整数星级
+            for	(var m = 0; m < int; m++) {
+              colorStar += '★';
+            }
+            //半星级
+            if (fract != 0) {
+              colorStar += '☆';
+            }
+            //用空缺星补齐五星
+            for	(var m = 0; m < (5 - fract - int); m++) {
+              greyStar += '☆';
+            }
+            if (info['score'] != 5) {
+              star = '<span class="star-score">'+ colorStar +'<span class="grey-star">'+ greyStar +'</span></span>';
+            } else {
+              star = '<span class="star-score">'+ colorStar +'</span>';
+            }
+          }
+
+          li += '<div class="media">';
+          li += '<div class="media-cover" style="background-image:url(' + coverPath + info['cover'] + ')"></div>';
+          li += '<div class="media-meta">';
+          li += '<div class="media-meta-item title">' + title + '</div>';
+          li += '<div class="media-meta-item">' + author + star +'</div>';
+          li += '<div class="media-meta-item intro">' + intro + '</div>';
+          li += '</div></div>';
+        })
+        
+        //显示处理后的数据 
+        $cultureList.eq(j).html(li);
+      })
+    }
+  }
+</script>
+
+
+
+
+<script src="/resources/minigrid.min.js"></script>
+<script data-pjax type="text/javascript">
+  var $album = $(".album")[0];
+  if($album) {
+    // 相册列表 JSON 数据
+    var imgDataPath = $album.getAttribute('json-src');
+    // 照片存储路径
+    var imgPath = $album.getAttribute('photo-src');
+    // 最多显示数量
+    var imgMaxNum = 50;
+    // 获取窗口大小以决定图片宽度
+    var windowWidth = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    if (windowWidth < 768) {
+        var imageWidth = 145; // 移动端图片宽度
+    } else {
+        var imageWidth = 235;
+    }
+
+    // 腾讯云自定义样式 (数据万象外网流量需要付费)
+    //var imgStyle = '!' + imageWidth + 'x';
+    //var imgStyle = '!300x';
+
+    // 生成相册
+    var LinkDataPath = imgDataPath;
+    photo = {
+        page: 1,
+        offset: imgMaxNum,
+        init: function () {
+            var that = this;
+            $.getJSON(LinkDataPath, function (data) {
+                that.render(that.page, data);
+            });
+        },
+        render: function (page, data) {
+            var begin = (page - 1) * this.offset;
+            var end = page * this.offset;
+            if (begin >= data.length) return;
+            var imgNameWithPattern, imgName, imageSize, imageX, imageY, li = "";
+            for (var i = begin; i < end && i < data.length; i++) {
+                imgNameWithPattern = data[i].split(' ')[1];
+                imgName = imgNameWithPattern.split('.')[0]
+                imageSize = data[i].split(' ')[0];
+                imageX = imageSize.split('.')[0];
+                imageY = imageSize.split('.')[1];
+                li += '<div class="card" style="width:' + imageWidth + 'px" >'
+                li += '<div class="album-photo" style="height:'+ imageWidth * imageY / imageX + 'px">'
+                li += '<a class="fancybox fancybox.image" href="' + imgPath + imgNameWithPattern + '" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url" data-fancybox="group" rel="group" data-caption="' + imgName + '" title="' +  imgName + '">'
+                li += '<img data-src="' + imgPath + imgNameWithPattern + '" src="' + imgPath + imgNameWithPattern + '" alt="' +  imgName + '" data-loaded="true">'
+                li += '</a>'
+                li += '</div>'
+                li += '</div>'
+            }
+            $(".album").append(li);
+            this.minigrid();
+        },
+
+        minigrid: function() {
+          var grid = new Minigrid({
+              container: '.album',
+              item: '.card',
+              gutter: 12
+          });
+          grid.mount();
+          $(window).resize(function() {
+              grid.mount();
+          });
+        }
+    }
+    photo.init();
+  }
+</script>
+</body>
+</html>
