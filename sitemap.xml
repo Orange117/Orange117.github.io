@@ -65,6 +65,15 @@
   </url>
   
   <url>
+    <loc>https://orange117.github.io/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/</loc>
+    
+    <lastmod>2023-05-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://orange117.github.io/album/</loc>
     
     <lastmod>2023-03-14</lastmod>
@@ -337,7 +346,7 @@
 
   <url>
     <loc>https://orange117.github.io/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -345,70 +354,77 @@
   
   <url>
     <loc>https://orange117.github.io/tags/%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/%E7%94%9F%E6%97%A5/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/Hexo/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/IDEA/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/Java/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/Redis/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/NoSql/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://orange117.github.io/tags/%E5%B0%8F%E8%AE%B0/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://orange117.github.io/tags/golang/</loc>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -417,7 +433,14 @@
   
   <url>
     <loc>https://orange117.github.io/categories/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2023-03-15</lastmod>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://orange117.github.io/categories/%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

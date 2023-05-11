@@ -507,4 +507,80 @@ appendfsync everysec ： 每隔一秒进行一次持久化
         <tag>小记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Golang指针简介</title>
+    <url>/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<p>对于指针的简单理解。</p>
+<span id="more"></span>
+
+<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><p>表示数据的内存<strong>地址</strong></p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">var name string &#x3D; &quot;chenkaixuan&quot;
+
+&#x2F;&#x2F; 声明一个 字符串的指针类型 的变量，值为 name 对应的内存地址
+var pointer *string &#x3D; &amp;name
+
+&#x2F;&#x2F; eg:
+var age int &#x3D; 18
+var x *int &#x3D; &amp;age</code></pre>
+
+<blockquote>
+<p>总结  *x 取对应的值 18 </p>
+</blockquote>
+<p><img data-src="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/image-20230511213831292.png" alt="image-20230511213831292"></p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>eg1:</p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func changeData(data string) &#123;
+	data &#x3D; &quot;haha&quot;
+&#125;
+
+func main() &#123;
+	name :&#x3D; &quot;chenkaixuan&quot;
+	&#x2F;&#x2F;本质上会将name的值拷贝一份，并赋值给data
+	changeData(name)
+	fmt.Println(name)
+&#125;
+</code></pre>
+
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func changeData(ptr *string) &#123;
+	*ptr &#x3D; &quot;haha&quot;
+&#125;
+
+func main() &#123;
+	name :&#x3D; &quot;chenkaixuan&quot;
+	changeData(&amp;name)
+	fmt.Println(name)
+&#125;
+</code></pre>
+
+<p>eg2:</p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func main() &#123;
+	var username string
+	fmt.Println(&quot;请输入用户名：&quot;)
+	fmt.Scanf(&quot;%s&quot;, &amp;username)
+
+	if username &#x3D;&#x3D; &quot;chenkaixuan&quot; &#123;
+		fmt.Println(&quot;success&quot;)
+	&#125; else &#123;
+		fmt.Println(&quot;fail&quot;)
+	&#125;
+&#125;
+</code></pre>]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
 </search>
