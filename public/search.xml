@@ -57,6 +57,82 @@ git config --global user.email yourQQnum@qq.com   #邮箱</code></pre>
       </tags>
   </entry>
   <entry>
+    <title>Golang指针简介</title>
+    <url>/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/</url>
+    <content><![CDATA[<p>对于指针的简单理解。</p>
+<span id="more"></span>
+
+<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><p>表示数据的内存<strong>地址</strong></p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">var name string &#x3D; &quot;chenkaixuan&quot;
+
+&#x2F;&#x2F; 声明一个 字符串的指针类型 的变量，值为 name 对应的内存地址
+var pointer *string &#x3D; &amp;name
+
+&#x2F;&#x2F; eg:
+var age int &#x3D; 18
+var x *int &#x3D; &amp;age</code></pre>
+
+<blockquote>
+<p>总结  *x 取对应的值 18 </p>
+</blockquote>
+<p><img data-src="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/image-20230511213831292.png" alt="image-20230511213831292"></p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>eg1:</p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func changeData(data string) &#123;
+	data &#x3D; &quot;haha&quot;
+&#125;
+
+func main() &#123;
+	name :&#x3D; &quot;chenkaixuan&quot;
+	&#x2F;&#x2F;本质上会将name的值拷贝一份，并赋值给data
+	changeData(name)
+	fmt.Println(name)
+&#125;
+</code></pre>
+
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func changeData(ptr *string) &#123;
+	*ptr &#x3D; &quot;haha&quot;
+&#125;
+
+func main() &#123;
+	name :&#x3D; &quot;chenkaixuan&quot;
+	changeData(&amp;name)
+	fmt.Println(name)
+&#125;
+</code></pre>
+
+<p>eg2:</p>
+<pre class="language-golang" data-language="golang"><code class="language-golang">package main
+
+import &quot;fmt&quot;
+
+func main() &#123;
+	var username string
+	fmt.Println(&quot;请输入用户名：&quot;)
+	fmt.Scanf(&quot;%s&quot;, &amp;username)
+
+	if username &#x3D;&#x3D; &quot;chenkaixuan&quot; &#123;
+		fmt.Println(&quot;success&quot;)
+	&#125; else &#123;
+		fmt.Println(&quot;fail&quot;)
+	&#125;
+&#125;
+</code></pre>]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>golang</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo博客搭建</title>
     <url>/2020/09/06/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<p>在2019年下半年的时候已经进行了博客的搭建，由于之后电脑重装系统，未进行blog文件的备份，导致数据丢失，如今再次进行搭建，记录搭建博客的过程。  </p>
@@ -490,11 +566,38 @@ appendfsync everysec ： 每隔一秒进行一次持久化
       </tags>
   </entry>
   <entry>
+    <title>hexo博客图片显示</title>
+    <url>/2023/05/11/hexo%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<p>解决hexo博客部署后，图片无法正常显示问题。（后续会采用图床解决）</p>
+<blockquote>
+<p> 博客迁移，回忆之前解决方法，重新记录。</p>
+</blockquote>
+<span id="more"></span>
+
+<p>1.安装插件</p>
+<pre class="language-yaml" data-language="yaml"><code class="language-yaml">npm install hexo<span class="token punctuation">-</span>renderer<span class="token punctuation">-</span>marked <span class="token punctuation">-</span><span class="token punctuation">-</span>save</code></pre>
+
+<p>2.在<code>config.yml</code>更改配置</p>
+<pre class="language-none"><code class="language-none">post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true</code></pre>
+
+<p>设置post_asset_folder: true，使用hexo new命令创建新文章时，会生成文章同名的文件夹，将图片资源保存在该文件夹中。</p>
+<p>3.使用<code>![]image.png</code>进行图片插入</p>
+<p>参考资料 <a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片</a></p>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>考研后与自己和解</title>
     <url>/2022/03/01/%E8%80%83%E7%A0%94%E5%90%8E%E4%B8%8E%E8%87%AA%E5%B7%B1%E5%92%8C%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="考研后与自己和解"><a href="#考研后与自己和解" class="headerlink" title="考研后与自己和解"></a>考研后与自己和解</h1><blockquote>
-<p>理性分析利弊</p>
-</blockquote>
+    <content><![CDATA[<p>理性分析利弊</p>
 <span id="more"></span>
 
 <p>莫泊桑说：人活在希望之中，一个希望破灭或实现了，就会有新的希望产生。</p>
@@ -503,84 +606,11 @@ appendfsync everysec ： 每隔一秒进行一次持久化
 <p>小记：人生还未上岸</p>
 <p>感谢up<strong>一条正弦</strong>的视频<a href="https://www.bilibili.com/video/BV13a411C7sL?spm_id_from=333.1007.top_right_bar_window_history.content.click">就算考研失败，还有太多逆风翻盘的机会｜如何与自己和解</a></p>
 ]]></content>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Golang指针简介</title>
-    <url>/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/</url>
-    <content><![CDATA[<p>对于指针的简单理解。</p>
-<span id="more"></span>
-
-<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><p>表示数据的内存<strong>地址</strong></p>
-<pre class="language-golang" data-language="golang"><code class="language-golang">var name string &#x3D; &quot;chenkaixuan&quot;
-
-&#x2F;&#x2F; 声明一个 字符串的指针类型 的变量，值为 name 对应的内存地址
-var pointer *string &#x3D; &amp;name
-
-&#x2F;&#x2F; eg:
-var age int &#x3D; 18
-var x *int &#x3D; &amp;age</code></pre>
-
-<blockquote>
-<p>总结  *x 取对应的值 18 </p>
-</blockquote>
-<p><img data-src="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/image-20230511213831292.png" alt="image-20230511213831292"></p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>eg1:</p>
-<pre class="language-golang" data-language="golang"><code class="language-golang">package main
-
-import &quot;fmt&quot;
-
-func changeData(data string) &#123;
-	data &#x3D; &quot;haha&quot;
-&#125;
-
-func main() &#123;
-	name :&#x3D; &quot;chenkaixuan&quot;
-	&#x2F;&#x2F;本质上会将name的值拷贝一份，并赋值给data
-	changeData(name)
-	fmt.Println(name)
-&#125;
-</code></pre>
-
-<pre class="language-golang" data-language="golang"><code class="language-golang">package main
-
-import &quot;fmt&quot;
-
-func changeData(ptr *string) &#123;
-	*ptr &#x3D; &quot;haha&quot;
-&#125;
-
-func main() &#123;
-	name :&#x3D; &quot;chenkaixuan&quot;
-	changeData(&amp;name)
-	fmt.Println(name)
-&#125;
-</code></pre>
-
-<p>eg2:</p>
-<pre class="language-golang" data-language="golang"><code class="language-golang">package main
-
-import &quot;fmt&quot;
-
-func main() &#123;
-	var username string
-	fmt.Println(&quot;请输入用户名：&quot;)
-	fmt.Scanf(&quot;%s&quot;, &amp;username)
-
-	if username &#x3D;&#x3D; &quot;chenkaixuan&quot; &#123;
-		fmt.Println(&quot;success&quot;)
-	&#125; else &#123;
-		fmt.Println(&quot;fail&quot;)
-	&#125;
-&#125;
-</code></pre>]]></content>
       <categories>
-        <category>学习</category>
+        <category>生活</category>
       </categories>
       <tags>
-        <tag>golang</tag>
+        <tag>小记</tag>
       </tags>
   </entry>
 </search>
