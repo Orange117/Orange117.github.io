@@ -92,15 +92,6 @@
   </url>
   
   <url>
-    <loc>https://orange117.github.io/culture/</loc>
-    
-    <lastmod>2023-03-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://orange117.github.io/categories/</loc>
     
     <lastmod>2023-03-15</lastmod>
@@ -110,7 +101,7 @@
   </url>
   
   <url>
-    <loc>https://orange117.github.io/guestbook/</loc>
+    <loc>https://orange117.github.io/culture/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -156,6 +147,15 @@
   
   <url>
     <loc>https://orange117.github.io/links/tech.json</loc>
+    
+    <lastmod>2023-03-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://orange117.github.io/guestbook/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -290,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://orange117.github.io/culture/movies/movies.json</loc>
+    <loc>https://orange117.github.io/culture/music/</loc>
     
     <lastmod>2023-03-14</lastmod>
     
@@ -299,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://orange117.github.io/culture/music/</loc>
+    <loc>https://orange117.github.io/culture/movies/movies.json</loc>
     
     <lastmod>2023-03-14</lastmod>
     

@@ -569,11 +569,11 @@ appendfsync everysec ： 每隔一秒进行一次持久化
     <title>hexo博客图片显示</title>
     <url>/2023/05/11/hexo%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/</url>
     <content><![CDATA[<p>解决hexo博客部署后，图片无法正常显示问题。（后续会采用图床解决）</p>
-<blockquote>
-<p> 博客迁移，回忆之前解决方法，重新记录。</p>
-</blockquote>
 <span id="more"></span>
 
+<blockquote>
+<p>博客迁移，回忆之前解决方法，重新记录。</p>
+</blockquote>
 <p>1.安装插件</p>
 <pre class="language-yaml" data-language="yaml"><code class="language-yaml">npm install hexo<span class="token punctuation">-</span>renderer<span class="token punctuation">-</span>marked <span class="token punctuation">-</span><span class="token punctuation">-</span>save</code></pre>
 
