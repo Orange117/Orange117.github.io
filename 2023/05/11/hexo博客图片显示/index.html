@@ -100,7 +100,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -246,7 +246,7 @@
 <p>博客迁移，回忆之前解决方法，重新记录。</p>
 </blockquote>
 <p>1.安装插件</p>
-<pre class="language-yaml" data-language="yaml"><code class="language-yaml">npm install hexo<span class="token punctuation">-</span>renderer<span class="token punctuation">-</span>marked <span class="token punctuation">-</span><span class="token punctuation">-</span>save</code></pre>
+<pre class="language-none"><code class="language-none">npm install hexo-renderer-marked --save</code></pre>
 
 <p>2.在<code>config.yml</code>更改配置</p>
 <pre class="language-none"><code class="language-none">post_asset_folder: true
@@ -255,7 +255,7 @@ marked:
   postAsset: true</code></pre>
 
 <p>设置post_asset_folder: true，使用hexo new命令创建新文章时，会生成文章同名的文件夹，将图片资源保存在该文件夹中。</p>
-<p>3.使用<code>![]image.png</code>进行图片插入</p>
+<p>3.使用<code>![image_name](image.png)</code>进行图片插入</p>
 <p>参考资料 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片</a></p>
 
     </div>
@@ -314,6 +314,9 @@ marked:
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/" rel="prev" title="Ubuntu安装zsh">
+                  <i class="fa fa-chevron-left"></i> Ubuntu安装zsh
+                </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/" rel="next" title="Golang指针简介">

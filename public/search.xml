@@ -1,23 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>2020——生于立冬</title>
-    <url>/2020/11/07/2020%E2%80%94%E2%80%94%E7%94%9F%E4%BA%8E%E7%AB%8B%E5%86%AC/</url>
-    <content><![CDATA[<p>进入大学两年多了，很幸运这在这所大学经历了三次生日了。<br>想想以前过的，真的是只能用糊涂来形容啊。没有管理时间，没有管理金钱，没有管理任何东西…希望现在的自己慢慢进行，还不迟吧。</p>
-<span id="more"></span>  
-
-<p>如今大三了，对于未来的选择——工作or考研，有了自己的决定。不敢称很是坚定吧，但不会像之前那样迷茫了，路不都是一点一点走出来的吗。对于自己的选择，有很多因素吧，在这里就不一一列举了。希望自己对自己的选择不会后悔，并且在当下的路，一直走下去。要坚持写博客，要养成读书的习惯，要把很爱的篮球捡回来，少懒一下就好了。<br>最后，感谢身边拥有和有过的人。希望自己变的善良。希望自己或许做不到<strong>穷则独善其身，达则兼济天下</strong>，但一定要善待周围的我们。</p>
-<img data-src="/2020/11/07/2020%E2%80%94%E2%80%94%E7%94%9F%E4%BA%8E%E7%AB%8B%E5%86%AC/%E5%A5%BD%E4%BA%BA.png" class="">  
-]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>随笔</tag>
-        <tag>生日</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Git学习</title>
     <url>/2022/03/05/Git%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<p>毕业设计需要，学习git进行项目管理，版本迭代，跟踪项目记录</p>
@@ -75,7 +58,7 @@ var x *int &#x3D; &amp;age</code></pre>
 <blockquote>
 <p>总结  *x 取对应的值 18 </p>
 </blockquote>
-<p><img data-src="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/image-20230511213831292.png" alt="image-20230511213831292"></p>
+<p><img data-src="/2023/05/11/Golang%E6%8C%87%E9%92%88%E7%AE%80%E4%BB%8B/image-20230511213831292.png"></p>
 <h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>eg1:</p>
 <pre class="language-golang" data-language="golang"><code class="language-golang">package main
 
@@ -575,7 +558,7 @@ appendfsync everysec ： 每隔一秒进行一次持久化
 <p>博客迁移，回忆之前解决方法，重新记录。</p>
 </blockquote>
 <p>1.安装插件</p>
-<pre class="language-yaml" data-language="yaml"><code class="language-yaml">npm install hexo<span class="token punctuation">-</span>renderer<span class="token punctuation">-</span>marked <span class="token punctuation">-</span><span class="token punctuation">-</span>save</code></pre>
+<pre class="language-none"><code class="language-none">npm install hexo-renderer-marked --save</code></pre>
 
 <p>2.在<code>config.yml</code>更改配置</p>
 <pre class="language-none"><code class="language-none">post_asset_folder: true
@@ -584,7 +567,7 @@ marked:
   postAsset: true</code></pre>
 
 <p>设置post_asset_folder: true，使用hexo new命令创建新文章时，会生成文章同名的文件夹，将图片资源保存在该文件夹中。</p>
-<p>3.使用<code>![]image.png</code>进行图片插入</p>
+<p>3.使用<code>![image_name](image.png)</code>进行图片插入</p>
 <p>参考资料 <a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片</a></p>
 ]]></content>
       <categories>
@@ -595,22 +578,65 @@ marked:
       </tags>
   </entry>
   <entry>
-    <title>考研后与自己和解</title>
-    <url>/2022/03/01/%E8%80%83%E7%A0%94%E5%90%8E%E4%B8%8E%E8%87%AA%E5%B7%B1%E5%92%8C%E8%A7%A3/</url>
-    <content><![CDATA[<p>理性分析利弊</p>
+    <title>Ubuntu安装zsh</title>
+    <url>/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/</url>
+    <content><![CDATA[<p>Ubuntu使用zsh+zim美化Terminal</p>
 <span id="more"></span>
 
-<p>莫泊桑说：人活在希望之中，一个希望破灭或实现了，就会有新的希望产生。</p>
-<img data-src="/2022/03/01/%E8%80%83%E7%A0%94%E5%90%8E%E4%B8%8E%E8%87%AA%E5%B7%B1%E5%92%8C%E8%A7%A3/image-20220301085247570.png" class="">
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>首先对于shell是一个命令行解释器，用户输入一条命令，shell就立即解释执行。</p>
+<p>常说的sh、bash就是shell解释器，进行安装的则是zsh。</p>
+<p>Zsh有很多框架配置，常见的有oh-my-zsh，根据网上评论其运行流畅度会让用户难以忍受。于是采取安装Zim，并安装powerlevel10k进行主题配置。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h3><p>查看系统的shell</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/shells</code></pre>
 
-<p>小记：人生还未上岸</p>
-<p>感谢up<strong>一条正弦</strong>的视频<a href="https://www.bilibili.com/video/BV13a411C7sL?spm_id_from=333.1007.top_right_bar_window_history.content.click">就算考研失败，还有太多逆风翻盘的机会｜如何与自己和解</a></p>
+<p>安装zsh</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token function">zsh</span>
+<span class="token comment"># 修改为使用zsh</span>
+chsh <span class="token parameter variable">-s</span> /bin/zsh
+<span class="token comment"># 重启电脑</span>
+<span class="token function">reboot</span></code></pre>
+
+<p>重启之后查看是否在使用zsh</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token environment constant">$SHELL</span></code></pre>
+
+<blockquote>
+<p>之后需在<code>.zshrc</code>中配置</p>
+</blockquote>
+<h3 id="安装zim"><a href="#安装zim" class="headerlink" title="安装zim"></a>安装zim</h3><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://raw.githubusercontent.com/zimfw/install/master/install.zsh <span class="token operator">|</span> <span class="token function">zsh</span></code></pre>
+
+<h3 id="安装powerlevel10k"><a href="#安装powerlevel10k" class="headerlink" title="安装powerlevel10k"></a>安装powerlevel10k</h3><pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 打开.zimrc文件</span>
+<span class="token function">vim</span> ~/.zimrc</code></pre>
+
+<p>在文件中添加p10k</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">zmodule romkatv/powerlevel10k</code></pre>
+
+<p>进行安装</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">zimfw <span class="token function">install</span></code></pre>
+
+<p>最后进行配置</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash">p10k configure
+<span class="token comment"># 可通过该命令重新配置</span></code></pre>
+
+<h2 id="美化"><a href="#美化" class="headerlink" title="美化"></a>美化</h2><h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p>这里采用nerd font字体库</p>
+<pre class="language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装</span>
+<span class="token function">git</span> clone https://github.com/ryanoasis/nerd-fonts.git <span class="token parameter variable">--depth</span> <span class="token number">1</span>
+<span class="token builtin class-name">cd</span> nerd-fonts
+./install.sh</code></pre>
+
+<h3 id="配置字体为Hack-Nerd-Font"><a href="#配置字体为Hack-Nerd-Font" class="headerlink" title="配置字体为Hack Nerd Font"></a>配置字体为Hack Nerd Font</h3><p>在Ubuntu Terminal中Preferences中进行配置</p>
+<p><img data-src="/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/terminal.png"></p>
+<p><img data-src="/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/font.png"></p>
+<h3 id="vscode终端"><a href="#vscode终端" class="headerlink" title="vscode终端"></a>vscode终端</h3><p>可以尝试修改<code>Editor: Font Family</code>中为字体名称 <strong>Hack Nerd Font Regular</strong></p>
+<hr>
+<p>参考 <a href="https://blog.csdn.net/MacwinWin/article/details/107806743#commentBox">漂亮的终端：zsh+zim+powerlevel10k+nerd font</a></p>
 ]]></content>
       <categories>
-        <category>生活</category>
+        <category>学习</category>
       </categories>
       <tags>
-        <tag>小记</tag>
+        <tag>工具</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
 </search>
