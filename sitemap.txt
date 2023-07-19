@@ -6,7 +6,6 @@ https://orange117.github.io/2020/11/08/IDEA%E4%B8%AD-java%E6%96%87%E4%BB%B6%E6%A
 https://orange117.github.io/2020/11/07/Redis%E5%9F%BA%E7%A1%80/
 https://orange117.github.io/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/
 https://orange117.github.io/2023/05/11/hexo%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/
-https://orange117.github.io/2023/07/19/Test/
 https://orange117.github.io/culture/
 https://orange117.github.io/album/
 https://orange117.github.io/categories/
