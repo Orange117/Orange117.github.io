@@ -116,6 +116,25 @@ func main() &#123;
       </tags>
   </entry>
   <entry>
+    <title>IDEA一键清除断点</title>
+    <url>/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/</url>
+    <content><![CDATA[<p>关于一键清除IDEA中的断点</p>
+<span id="more"></span>
+
+<h1 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h1><p>在进行程序的debug时需要设置断点，之后把断点清除的时候不需要一个一个断点进行点击，可以快捷操作。</p>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>1、点开<code>View Breakpoints..</code></p>
+<img data-src="/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/image-20201121162128194.png" class="">
+
+<p>2、选中全部断点，并点击<code>-</code> 符号</p>
+<img data-src="/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/image-20201121162514926.png" class="">
+
+<p>3、点击Done即可设置成功</p>
+]]></content>
+      <tags>
+        <tag>IDEA</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hexo博客搭建</title>
     <url>/2020/09/06/Hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</url>
     <content><![CDATA[<p>在2019年下半年的时候已经进行了博客的搭建，由于之后电脑重装系统，未进行blog文件的备份，导致数据丢失，如今再次进行搭建，记录搭建博客的过程。  </p>
@@ -194,25 +213,6 @@ func main() &#123;
       </tags>
   </entry>
   <entry>
-    <title>IDEA一键清除断点</title>
-    <url>/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/</url>
-    <content><![CDATA[<p>关于一键清除IDEA中的断点</p>
-<span id="more"></span>
-
-<h1 id="问题描述："><a href="#问题描述：" class="headerlink" title="问题描述："></a>问题描述：</h1><p>在进行程序的debug时需要设置断点，之后把断点清除的时候不需要一个一个断点进行点击，可以快捷操作。</p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>1、点开<code>View Breakpoints..</code></p>
-<img data-src="/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/image-20201121162128194.png" class="">
-
-<p>2、选中全部断点，并点击<code>-</code> 符号</p>
-<img data-src="/2020/11/21/IDEA%E4%B8%80%E9%94%AE%E6%B8%85%E9%99%A4%E6%96%AD%E7%82%B9/image-20201121162514926.png" class="">
-
-<p>3、点击Done即可设置成功</p>
-]]></content>
-      <tags>
-        <tag>IDEA</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>IDEA中.java文件标红问题</title>
     <url>/2020/11/08/IDEA%E4%B8%AD-java%E6%96%87%E4%BB%B6%E6%A0%87%E7%BA%A2%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h1 id="关于处理IDEA中Java文件标红问题"><a href="#关于处理IDEA中Java文件标红问题" class="headerlink" title="关于处理IDEA中Java文件标红问题"></a>关于处理IDEA中Java文件标红问题</h1><span id="more"></span>
@@ -248,7 +248,7 @@ func main() &#123;
 <ul>
 <li><p><strong>NoSql</strong>和<strong>关系型数据库</strong>比较</p>
 <p><u><em><strong>缓存思想</strong></em></u></p>
-<img data-src="/2020/11/07/Redis%E5%9F%BA%E7%A1%80/1.%E5%85%B3%E7%B3%BB%E5%9E%8B%E5%92%8C%E9%9D%9E%E5%85%B3%E7%B3%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AF%94%E8%BE%83.bmp" class=""></li>
+</li>
 </ul>
 <h3 id="1-2下载安装"><a href="#1-2下载安装" class="headerlink" title="1.2下载安装"></a>1.2下载安装</h3><ul>
 <li><p>官网下载</p>
@@ -549,35 +549,6 @@ appendfsync everysec ： 每隔一秒进行一次持久化
       </tags>
   </entry>
   <entry>
-    <title>hexo博客图片显示</title>
-    <url>/2023/05/11/hexo%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<p>解决hexo博客部署后，图片无法正常显示问题。（后续会采用图床解决）</p>
-<span id="more"></span>
-
-<blockquote>
-<p>博客迁移，回忆之前解决方法，重新记录。</p>
-</blockquote>
-<p>1.安装插件</p>
-<pre class="language-none"><code class="language-none">npm install hexo-renderer-marked --save</code></pre>
-
-<p>2.在<code>config.yml</code>更改配置</p>
-<pre class="language-none"><code class="language-none">post_asset_folder: true
-marked:
-  prependRoot: true
-  postAsset: true</code></pre>
-
-<p>设置post_asset_folder: true，使用hexo new命令创建新文章时，会生成文章同名的文件夹，将图片资源保存在该文件夹中。</p>
-<p>3.使用<code>![image_name](image.png)</code>进行图片插入</p>
-<p>参考资料 <a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片</a></p>
-]]></content>
-      <categories>
-        <category>blog</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Ubuntu安装zsh</title>
     <url>/2023/05/26/Ubuntu%E5%AE%89%E8%A3%85zsh/</url>
     <content><![CDATA[<p>Ubuntu使用zsh+zim美化Terminal</p>
@@ -637,6 +608,35 @@ chsh <span class="token parameter variable">-s</span> /bin/zsh
       <tags>
         <tag>工具</tag>
         <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo博客图片显示</title>
+    <url>/2023/05/11/hexo%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA/</url>
+    <content><![CDATA[<p>解决hexo博客部署后，图片无法正常显示问题。（后续会采用图床解决）</p>
+<span id="more"></span>
+
+<blockquote>
+<p>博客迁移，回忆之前解决方法，重新记录。</p>
+</blockquote>
+<p>1.安装插件</p>
+<pre class="language-none"><code class="language-none">npm install hexo-renderer-marked --save</code></pre>
+
+<p>2.在<code>config.yml</code>更改配置</p>
+<pre class="language-none"><code class="language-none">post_asset_folder: true
+marked:
+  prependRoot: true
+  postAsset: true</code></pre>
+
+<p>设置post_asset_folder: true，使用hexo new命令创建新文章时，会生成文章同名的文件夹，将图片资源保存在该文件夹中。</p>
+<p>3.使用<code>![image_name](image.png)</code>进行图片插入</p>
+<p>参考资料 <a href="https://zhuanlan.zhihu.com/p/265077468">hexo博客如何插入图片</a></p>
+]]></content>
+      <categories>
+        <category>blog</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
       </tags>
   </entry>
 </search>
