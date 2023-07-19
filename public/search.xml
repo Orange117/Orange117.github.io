@@ -639,4 +639,9 @@ marked:
         <tag>hexo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Test</title>
+    <url>/2023/07/19/Test/</url>
+    <content><![CDATA[<span id="more"></span>]]></content>
+  </entry>
 </search>
